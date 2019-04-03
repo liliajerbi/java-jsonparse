@@ -23,10 +23,38 @@ public class WeatherParse {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        
-        // TODO parser le fichier
 
-        // TODO récupérer la racine du document
+        JSONParser parser = new JSONParser();
+        Object jsonParsed = null;
+        try {
+            jsonParsed = parser.parse(jsonFile);
+        } catch (ParseException | IOException e) {
+            e.printStackTrace();
+        }
+
+        JSONObject root = (JSONObject) jsonParsed;
+        String name = (String) root.get("name");
+        System.out.println ("City name: " + name);
+
+        JSONObject coord = (JSONObject) root.get("coord");
+        double lat = (double) coord.get("lat");
+        double lon = (double) coord.get("lon");
+
+        System.out.println("City latitude: " + lat);
+        System.out.println("City longitude: " + lon);
+
+        JSONArray weather = (JSONArray) root.get("weather");
+        for (int i = 0; i < weather.size(); i++) {
+            JSONObject weatheri = (JSONObject) weather.get(i);      
+            String main = (String) weatheri.get("main");
+            System.out.println("Weather: " + main);
+        }
+
+
+
+
+
+
 
         // TODO afficher la valeur de l'attribut "name" de la racine
 
